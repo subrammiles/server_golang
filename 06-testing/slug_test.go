@@ -1,4 +1,4 @@
-package testing06
+package testingdemo
 
 import (
 	"errors"

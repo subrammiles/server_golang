@@ -43,10 +43,13 @@ func Example_bufferedChannel() {
 	ch <- "a" // doesn't block: there's room in the buffer
 	ch <- "b"
 	fmt.Println(len(ch), cap(ch), <-ch, <-ch)
-	v, ok := <-ch // not reached while open & empty... so close first:
-	_ = v
-	_ = ok
-	// Output: 2 2 a b
+
+	close(ch)     // receiving from an open, EMPTY channel would block forever; a closed one returns at once
+	v, ok := <-ch // ok == false: the channel is closed and drained
+	fmt.Printf("%q %v\n", v, ok)
+	// Output:
+	// 2 2 a b
+	// "" false
 }
 
 func TestWorkerPool(t *testing.T) {

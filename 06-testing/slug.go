@@ -1,5 +1,5 @@
-// Package testing06 is code under test for the testing lesson.
-package testing06
+// Package testingdemo is code under test for the testing lesson.
+package testingdemo
 
 import (
 	"errors"
