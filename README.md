@@ -10,7 +10,7 @@ Companion repositories teach the same backend ideas in other ecosystems: `server
 `server_spring_boot`. The course catalog API (lesson 12) is the same domain in all of them, so you can compare.
 
 ## Requirements
-- **Go 1.25+** (developed on Go 1.27). One module for the whole repo: `go.mod` at the root.
+- **Go 1.26+** (developed on Go 1.27; Go supports its two newest releases). One module for the whole repo: `go.mod` at the root.
 - Docker (optional): PostgreSQL for lesson 15 (its tests are skipped without Docker) and the image in lesson 20.
 
 ```bash

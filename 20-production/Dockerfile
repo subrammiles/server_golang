@@ -3,7 +3,7 @@
 #   docker run -p 8080:8080 -p 9091:9091 go-production
 #
 # Stage 1: compile. CGO_ENABLED=0 gives a STATIC binary that needs no C libraries at runtime.
-FROM golang:1.25 AS build
+FROM golang:1.27 AS build
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download                     # cached layer: re-runs only when dependencies change
