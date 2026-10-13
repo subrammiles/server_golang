@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Go WebSocket chat</title>
+<style>body{font-family:sans-serif;max-width:40rem;margin:2rem auto}#log{border:1px solid #ccc;height:20rem;overflow:auto;padding:.5rem}</style>
+</head>
+<body>
+  <h1>WebSocket chat (Go)</h1>
+  <p>Name <input id="name" value="gopher"> Room <input id="room" value="lobby"> <button id="join">Join</button></p>
+  <div id="log"></div>
+  <form id="form"><input id="text" autocomplete="off" style="width:80%"><button>Send</button></form>
+  <script>
+    let ws;
+    const log = (t) => { const d = document.createElement('div'); d.textContent = t; document.getElementById('log').append(d); };
+    document.getElementById('join').onclick = () => {
+      ws?.close();
+      const q = new URLSearchParams({ name: document.getElementById('name').value, room: document.getElementById('room').value });
+      ws = new WebSocket(`ws://${location.host}/chat?${q}`);
+      ws.onmessage = (e) => {
+        const m = JSON.parse(e.data);
+        if (m.type === 'message') log(`${m.from}: ${m.text}`);
+        else if (m.type === 'error') log(`! ${m.text}`);
+        else log(`* ${m.from} ${m.type === 'join' ? 'joined' : 'left'} (online: ${(m.online || []).join(', ')})`);
+      };
+    };
+    document.getElementById('form').onsubmit = (e) => {
+      e.preventDefault();
+      ws?.send(JSON.stringify({ text: document.getElementById('text').value }));
+      document.getElementById('text').value = '';
+    };
+  </script>
+</body>
+</html>

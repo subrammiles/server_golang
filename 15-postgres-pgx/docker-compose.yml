@@ -1,0 +1,15 @@
+# docker compose -f 15-postgres-pgx/docker-compose.yml up -d --wait     (PostgreSQL on localhost:55432)
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: tutorial
+      POSTGRES_PASSWORD: tutorial      # local development only
+      POSTGRES_DB: courses
+    ports:
+      - "55432:5432"
+    healthcheck:                         # "--wait" waits until PostgreSQL really accepts connections
+      test: ["CMD-SHELL", "pg_isready -U tutorial -d courses"]
+      interval: 2s
+      timeout: 3s
+      retries: 15

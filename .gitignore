@@ -19,3 +19,7 @@
 
 # Go workspace file
 go.work
+# SQLite database files (lesson 14)
+*.db
+*.db-shm
+*.db-wal

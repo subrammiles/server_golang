@@ -1,0 +1,68 @@
+// The CONTRACT between services. Clients and servers in any language are generated from this file.
+syntax = "proto3";
+
+package course.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/subrammiles/server_golang/19-grpc/gen/course/v1;coursev1";
+
+// Each RPC gets its OWN request and response message (enforced by `buf lint`), so any of them can
+// gain fields later without affecting the others.
+service CourseService {
+  // Unary RPCs: one request, one response
+  rpc GetCourse(GetCourseRequest) returns (GetCourseResponse);
+  rpc ListCourses(ListCoursesRequest) returns (ListCoursesResponse);
+  rpc CreateCourse(CreateCourseRequest) returns (CreateCourseResponse);
+  // Server streaming: one request, a stream of responses
+  rpc WatchEnrollments(WatchEnrollmentsRequest) returns (stream WatchEnrollmentsResponse);
+}
+
+message Course {
+  int64 id = 1;                         // field NUMBERS identify fields on the wire: never reuse or change them
+  string title = 2;
+  string category = 3;
+  int32 duration_hours = 4;
+  int64 price = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+message GetCourseRequest {
+  int64 id = 1;
+}
+
+message GetCourseResponse {
+  Course course = 1;
+}
+
+message ListCoursesRequest {
+  string category = 1;
+  int32 page_size = 2;
+  int32 page = 3;
+}
+
+message ListCoursesResponse {
+  repeated Course courses = 1;
+  int32 total = 2;
+}
+
+message CreateCourseRequest {
+  string title = 1;
+  string category = 2;
+  int32 duration_hours = 3;
+  int64 price = 4;
+}
+
+message CreateCourseResponse {
+  Course course = 1;
+}
+
+message WatchEnrollmentsRequest {
+  int64 course_id = 1;
+}
+
+message WatchEnrollmentsResponse {
+  int64 course_id = 1;
+  string student = 2;
+  int32 seats_left = 3;
+}
